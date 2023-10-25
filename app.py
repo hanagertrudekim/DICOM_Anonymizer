@@ -1,26 +1,37 @@
 import sys
+from PyQt5 import QtWidgets, uic
 
-from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
-
-
-# Subclass QMainWindow to customize your application's main window
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("My App")
-        button = QPushButton("Press Me!")
-
-        self.setFixedSize(QSize(1000, 700))
-
-        # Set the central widget of the Window.
-        self.setCentralWidget(button)
+from MainWindow import Ui_MainWindow
 
 
-app = QApplication(sys.argv)
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self, *args, obj=None, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
+        self.setupUi(self)
+
+        self.pushButton.clicked.connect(self.getDirectory)
+        self.submitButton.clicked.connect(self.submitBtnclick)
+
+        # 인스턴스 변수로 dicom_folder를 선언
+        self.dicom_folder = ""
+
+    def getDirectory(self):
+        folder = QtWidgets.QFileDialog.getExistingDirectory(self, "Select DICOM Directory")
+        if folder:  # 사용자가 디렉토리를 선택했다면
+            self.dicom_folder = folder
+            print("선택된 DICOM 디렉토리:", self.dicom_folder)
+
+    def submitBtnclick(self):
+        if self.dicom_folder:
+            print("submit dicom path")
+            
+        else:
+            print("DICOM 디렉토리가 선택되지 않았습니다.")
+
+
+
+app = QtWidgets.QApplication(sys.argv)
 
 window = MainWindow()
 window.show()
-
 app.exec()
