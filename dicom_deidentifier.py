@@ -3,10 +3,6 @@ Python script to de-identify DICOM images
 """
 import sys
 import os
-current_directory = os.path.dirname(os.path.abspath(__file__))
-packages_path = os.path.join(current_directory, "python","site-packages")
-sys.path.append(packages_path)
-
 import re
 from os.path import dirname, basename, sep
 import csv
