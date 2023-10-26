@@ -25,11 +25,15 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.submitButton = QtWidgets.QPushButton(self.centralwidget)
         self.submitButton.setEnabled(True)
-        self.submitButton.setGeometry(QtCore.QRect(720, 480, 171, 51))
+        self.submitButton.setGeometry(QtCore.QRect(730, 450, 101, 41))
+        font = QtGui.QFont()
+        font.setFamily(".AppleSystemUIFont")
+        font.setPointSize(-1)
+        self.submitButton.setFont(font)
         self.submitButton.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.submitButton.setStyleSheet("background-color: 8ec9f9;\n"
+        self.submitButton.setStyleSheet("background-color: #101010;\n"
 "font-size: 15px;\n"
-"color: rgb(169, 169, 169)\n"
+"color: #91C9F8;\n"
 "\n"
 "")
         self.submitButton.setObjectName("submitButton")
@@ -41,7 +45,8 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setUnderline(False)
         self.Title.setFont(font)
-        self.Title.setStyleSheet("font-size: 28px")
+        self.Title.setStyleSheet("font-size: 28px;\n"
+"color: white;")
         self.Title.setObjectName("Title")
         self.line = QtWidgets.QFrame(self.centralwidget)
         self.line.setGeometry(QtCore.QRect(0, 25, 1061, 51))
@@ -52,30 +57,46 @@ class Ui_MainWindow(object):
         self.header = QtWidgets.QLabel(self.centralwidget)
         self.header.setGeometry(QtCore.QRect(20, 20, 58, 16))
         self.header.setStyleSheet("font-size: 15px;\n"
+"color: white;\n"
 "")
         self.header.setObjectName("header")
         self.selectButton = QtWidgets.QPushButton(self.centralwidget)
-        self.selectButton.setGeometry(QtCore.QRect(250, 200, 131, 41))
-        self.selectButton.setStyleSheet("background-color: none;\n"
-"font-size: 14px;\n"
-"color: rgb(169, 169, 169);")
+        self.selectButton.setGeometry(QtCore.QRect(250, 200, 151, 41))
+        self.selectButton.setStyleSheet("background-color: #101010;\n"
+"font-size: 15px;\n"
+"color: #91C9F8;")
         self.selectButton.setObjectName("selectButton")
         self.statusLabel = QtWidgets.QLabel(self.centralwidget)
-        self.statusLabel.setGeometry(QtCore.QRect(240, 430, 351, 20))
+        self.statusLabel.setGeometry(QtCore.QRect(260, 410, 351, 20))
         font = QtGui.QFont()
         font.setFamily("AppleGothic")
         font.setItalic(True)
         self.statusLabel.setFont(font)
+        self.statusLabel.setStyleSheet("color: rgb(235, 235, 235);")
         self.statusLabel.setText("")
         self.statusLabel.setObjectName("statusLabel")
         self.folderPath = QtWidgets.QLabel(self.centralwidget)
-        self.folderPath.setGeometry(QtCore.QRect(260, 250, 551, 16))
+        self.folderPath.setGeometry(QtCore.QRect(410, 210, 511, 16))
         font = QtGui.QFont()
-        font.setPointSize(12)
+        font.setPointSize(13)
         self.folderPath.setFont(font)
-        self.folderPath.setStyleSheet("color: rgb(94, 94, 94)")
+        self.folderPath.setStyleSheet("color: rgb(235, 235, 235);")
         self.folderPath.setText("")
         self.folderPath.setObjectName("folderPath")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(260, 250, 361, 16))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_2.setFont(font)
+        self.label_2.setStyleSheet("color: rgb(145, 145, 145);")
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(260, 270, 461, 16))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet("color: rgb(145, 145, 145);")
+        self.label_3.setObjectName("label_3")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -84,7 +105,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.submitButton.setText(_translate("MainWindow", "submit"))
+        self.submitButton.setText(_translate("MainWindow", "SUBMIT"))
         self.Title.setText(_translate("MainWindow", "DICOM Form"))
         self.header.setText(_translate("MainWindow", "SNU-H"))
-        self.selectButton.setText(_translate("MainWindow", "select folder"))
+        self.selectButton.setText(_translate("MainWindow", "SELECT FOLDER"))
+        self.label_2.setText(_translate("MainWindow", "※ Please select Raw DICOM Folder"))
+        self.label_3.setText(_translate("MainWindow", "(DICOM folder name should be SUBJ_CTDATE: ex) KU39009_20220921)"))
