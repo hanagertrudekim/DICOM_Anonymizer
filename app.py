@@ -1,20 +1,27 @@
 import sys
 from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import QThread, pyqtSignal
-
+from PyQt5.QtCore import QThread, pyqtSignal, QRunnable, QThreadPool, QObject
 from MainWindow import Ui_MainWindow
 from dicom_deidentifier import main
 
-class WorkerThread(QThread):
+class WorkerSignals(QObject):
     finished = pyqtSignal()
 
-    def __init__(self, dicom_folder):
-        super().__init__()
-        self.dicom_folder = dicom_folder
+class Worker(QRunnable):
+    def __init__(self, fn, *args, **kwargs):
+        super(Worker, self).__init__()
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+        self.signals = WorkerSignals()
 
     def run(self):
-        main(self.dicom_folder)
-        self.finished.emit()
+        self.fn(*self.args, **self.kwargs)
+        self.signals.finished.emit()
+
+def long_running_task(dicom_folder):
+    # 여기에 CPU 집약적인 작업을 추가
+    main(dicom_folder)
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -39,9 +46,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.dicom_folder:
             self.statusLabel.setText(" 🔄 Processing...")
 
-            self.worker_thread = WorkerThread(self.dicom_folder)
-            self.worker_thread.finished.connect(self.on_main_finished)
-            self.worker_thread.start()
+            # 작업을 스레드 풀에 추가
+            worker = Worker(long_running_task, self.dicom_folder)
+            worker.signals.finished.connect(self.on_main_finished)
+            QThreadPool.globalInstance().start(worker)
         else:
             print("DICOM 디렉토리가 선택되지 않았습니다.")
             self.statusLabel.setText(" 🔵 DICOM 디렉토리가 선택되지 않았습니다.")
