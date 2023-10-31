@@ -2,17 +2,19 @@ import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import QThread, pyqtSignal
 from MainWindow import Ui_MainWindow
-from dicom_deidentifier import main
+import importlib
+
 
 class WorkerThread(QThread):
     finished = pyqtSignal()
 
-    def __init__(self, dicom_folder):
+    def __init__(self, dicom_folder, function):
         super().__init__()
         self.dicom_folder = dicom_folder
+        self.function = function
 
     def run(self):
-        main(self.dicom_folder)
+        self.function(self.dicom_folder)
         self.finished.emit()
 
 
@@ -38,7 +40,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.dicom_folder:
             self.statusLabel.setText(" 🔄 Processing...")
 
-            self.worker_thread = WorkerThread(self.dicom_folder)
+            dicom_deidentifier = importlib.import_module("dicom_deidentifier")
+            self.worker_thread = WorkerThread(self.dicom_folder, dicom_deidentifier.main)
             self.worker_thread.finished.connect(self.on_main_finished)
             self.worker_thread.start()
         else:
