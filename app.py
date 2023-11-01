@@ -1,6 +1,6 @@
 import sys
-from PyQt5 import QtWidgets, uic
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt6 import QtWidgets, uic
+from PyQt6.QtCore import QThread, pyqtSignal
 from MainWindow import Ui_MainWindow
 import importlib
 
