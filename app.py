@@ -45,9 +45,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if file_dialog.exec():
             self.dicom_folder = file_dialog.selectedFiles()
-            
-            self.folderPath.setText("\n".join(self.dicom_folder))
+            self.folderPath.setText("\n".join([f"📁 {folder}\n" for folder in self.dicom_folder]))
             print("선택된 DICOM 디렉토리:", self.dicom_folder)
+
 
     def submitBtnclick(self):
         if self.dicom_folder:

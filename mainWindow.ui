@@ -20,6 +20,39 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0" colspan="4">
+       <widget class="QLabel" name="header">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>70</height>
+         </size>
+        </property>
+        <property name="accessibleDescription">
+         <string/>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">font-size: 15px;
+color: white;
+</string>
+        </property>
+        <property name="text">
+         <string>SNU-H</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+       </widget>
+      </item>
       <item row="7" column="1" colspan="3">
        <widget class="QLabel" name="label_4">
         <property name="sizePolicy">
@@ -39,7 +72,7 @@
         </property>
        </widget>
       </item>
-      <item row="15" column="1" colspan="2" alignment="Qt::AlignVCenter">
+      <item row="16" column="1" colspan="2" alignment="Qt::AlignVCenter">
        <widget class="QLabel" name="statusLabel">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -94,7 +127,7 @@
         </property>
        </widget>
       </item>
-      <item row="16" column="3" colspan="2" alignment="Qt::AlignHCenter">
+      <item row="17" column="3" colspan="2" alignment="Qt::AlignHCenter">
        <widget class="QPushButton" name="submitButton">
         <property name="enabled">
          <bool>true</bool>
@@ -132,21 +165,6 @@ color: #91C9F8;
         </property>
        </widget>
       </item>
-      <item row="9" column="2" colspan="2">
-       <widget class="QLabel" name="folderPath">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(235, 235, 235);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0" colspan="5">
        <widget class="Line" name="line">
         <property name="enabled">
@@ -172,7 +190,26 @@ color: #91C9F8;
         </property>
        </widget>
       </item>
-      <item row="17" column="0" colspan="5">
+      <item row="15" column="1" colspan="3">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="0" colspan="5">
        <widget class="QLabel" name="label_5">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -270,52 +307,21 @@ color: #91C9F8;</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" colspan="4">
-       <widget class="QLabel" name="header">
+      <item row="14" column="1" colspan="3">
+       <widget class="QLabel" name="folderPath">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>70</height>
-         </size>
-        </property>
-        <property name="accessibleDescription">
-         <string/>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size: 15px;
-color: white;
-</string>
-        </property>
-        <property name="text">
-         <string>SNU-H</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1" colspan="3">
-       <widget class="QLabel" name="label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>200</height>
-         </size>
+         <string notr="true">color: rgb(235, 235, 235);</string>
         </property>
         <property name="text">
          <string/>
