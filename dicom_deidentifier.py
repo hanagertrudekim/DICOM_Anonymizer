@@ -30,6 +30,7 @@ def read_csv_mapping(path: Path) -> Dict[str, str]:
     df = pd.read_csv(path)
     return {str(mrn): str(id) for mrn, id in zip(df.mrn, df.id)}
 
+# src_dcm_dir 디렉토리 내에서 ".zip" 확장자를 제외한 모든 파일과 폴더의 경로를 재귀적으로 검색하여 반환
 def get_dcm_paths(src_dcm_dir: Path) -> List[Path]:
     return list(src_dcm_dir.rglob("*[!.zip]"))
 
@@ -100,13 +101,14 @@ def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str]):
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
         deidentify(dcm_path, output_dir, subj)
 
-def main(src_path: str):
-    src_path = Path(src_path).resolve()
-    mrn_id_mapping = read_csv_mapping(csv_path) if csv_path else {}
-    if src_path.is_dir():
-        for src_dcm_dir in src_path.iterdir():
-            if src_dcm_dir.is_dir() and src_dcm_dir.name.startswith('DCM'):
-                run_deidentifier(src_dcm_dir, mrn_id_mapping)
-    else:
-        run_deidentifier(src_path, mrn_id_mapping)
+def main(src_paths: List[str]):
+    for src_path in src_paths:
+        src_path = Path(src_path).resolve()
+        mrn_id_mapping = read_csv_mapping(csv_path) if csv_path else {}
+        if src_path.is_dir():
+            for src_dcm_dir in src_path.iterdir():
+                if src_dcm_dir.is_dir() and src_dcm_dir.name.startswith('DCM'):
+                    run_deidentifier(src_dcm_dir, mrn_id_mapping)
+        else:
+            run_deidentifier(src_path, mrn_id_mapping)
     return "success"

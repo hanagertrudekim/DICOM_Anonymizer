@@ -1,6 +1,7 @@
 import sys
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import QThread, pyqtSignal
+from PyQt6.QtWidgets import QFileDialog, QListView, QTreeView, QAbstractItemView
 from MainWindow import Ui_MainWindow
 import importlib
 
@@ -30,10 +31,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dicom_folder = ""
 
     def getDirectory(self):
-        folder = QtWidgets.QFileDialog.getExistingDirectory(self, "Select DICOM Directory")
-        if folder:  # 사용자가 디렉토리를 선택했다면
-            self.dicom_folder = folder
-            self.folderPath.setText(self.dicom_folder)
+        file_dialog = QFileDialog()
+        file_dialog.setFileMode(QFileDialog.FileMode.Directory)
+        file_dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        file_view = file_dialog.findChild(QListView, 'listView')
+
+        # to make it possible to select multiple directories:
+        if file_view:
+            file_view.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
+        f_tree_view = file_dialog.findChild(QTreeView)
+        if f_tree_view:
+            f_tree_view.setSelectionMode(QAbstractItemView.SelectionMode.MultiSelection)
+
+        if file_dialog.exec():
+            self.dicom_folder = file_dialog.selectedFiles()
+            
+            self.folderPath.setText("\n".join(self.dicom_folder))
             print("선택된 DICOM 디렉토리:", self.dicom_folder)
 
     def submitBtnclick(self):
