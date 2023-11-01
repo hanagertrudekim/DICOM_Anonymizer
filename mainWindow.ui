@@ -20,7 +20,60 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="10" column="1">
+      <item row="7" column="1" colspan="3">
+       <widget class="QLabel" name="label_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1" colspan="2" alignment="Qt::AlignVCenter">
+       <widget class="QLabel" name="statusLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>AppleGothic</family>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(235, 235, 235);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
        <widget class="QLabel" name="label_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -38,6 +91,103 @@
         </property>
         <property name="text">
          <string>※ Please select Raw DICOM Folder</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="3" colspan="2" alignment="Qt::AlignHCenter">
+       <widget class="QPushButton" name="submitButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>.AppleSystemUIFont</family>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #101010;
+font-size: 15px;
+color: #91C9F8;
+
+</string>
+        </property>
+        <property name="text">
+         <string>SUBMIT</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="2" colspan="2">
+       <widget class="QLabel" name="folderPath">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(235, 235, 235);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="5">
+       <widget class="Line" name="line">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: white;</string>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0" colspan="5">
+       <widget class="QLabel" name="label_5">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>72</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -72,79 +222,7 @@ color: white;</string>
         </property>
        </widget>
       </item>
-      <item row="13" column="1" colspan="3">
-       <widget class="QLabel" name="label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>227</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="2" colspan="2">
-       <widget class="QLabel" name="folderPath">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(235, 235, 235);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1" colspan="3">
-       <widget class="QLabel" name="label_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="0" colspan="5">
-       <widget class="QLabel" name="label_5">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
+      <item row="9" column="1">
        <widget class="QPushButton" name="selectButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -158,6 +236,9 @@ color: white;</string>
           <height>40</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: #101010;
 font-size: 15px;
@@ -168,45 +249,7 @@ color: #91C9F8;</string>
         </property>
        </widget>
       </item>
-      <item row="15" column="3" colspan="2" alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="submitButton">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>120</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>.AppleSystemUIFont</family>
-          <pointsize>-1</pointsize>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>ArrowCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #101010;
-font-size: 15px;
-color: #91C9F8;
-
-</string>
-        </property>
-        <property name="text">
-         <string>SUBMIT</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="1" colspan="2">
+      <item row="13" column="1" colspan="2">
        <widget class="QLabel" name="label_3">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -227,54 +270,7 @@ color: #91C9F8;
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="5">
-       <widget class="Line" name="line">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>1</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: white;</string>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="1" colspan="2">
-       <widget class="QLabel" name="statusLabel">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <family>AppleGothic</family>
-          <italic>true</italic>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(235, 235, 235);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="3">
+      <item row="0" column="0" colspan="4">
        <widget class="QLabel" name="header">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -284,8 +280,8 @@ color: #91C9F8;
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>50</height>
+          <width>60</width>
+          <height>70</height>
          </size>
         </property>
         <property name="accessibleDescription">
@@ -301,6 +297,28 @@ color: white;
         </property>
         <property name="text">
          <string>SNU-H</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1" colspan="3">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
