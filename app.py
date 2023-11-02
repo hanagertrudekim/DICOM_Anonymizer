@@ -45,7 +45,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if file_dialog.exec():
             self.dicom_folder = file_dialog.selectedFiles()
-            self.folderPath.setText("\n".join([f"📁 {folder}\n" for folder in self.dicom_folder]))
+            # Update the folder display here
+            folder_display_text = ""
+            for i, folder in enumerate(self.dicom_folder):
+                if i < 4:  # Only show the first four directories
+                    folder_display_text += f"📁 {folder}\n"
+                else:
+                    folder_display_text += "...\n"
+                    break  # Stop after adding the ellipsis
+            
+            self.folderPath.setText(folder_display_text)
             print("선택된 DICOM 디렉토리:", self.dicom_folder)
 
 
