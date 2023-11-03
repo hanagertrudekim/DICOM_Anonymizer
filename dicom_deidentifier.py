@@ -102,13 +102,32 @@ def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str]):
         deidentify(dcm_path, output_dir, subj)
 
 def main(src_paths: List[str]):
+    total_dirs = sum(1 for src_path in src_paths if Path(src_path).is_dir())
+    total_files = sum(1 for src_path in src_paths if not Path(src_path).is_dir())
+    total_count = total_dirs + total_files
+    progress = 0
+    processed_dirs = 0
+    processed_files = 0
+
     for src_path in src_paths:
         src_path = Path(src_path).resolve()
         mrn_id_mapping = read_csv_mapping(csv_path) if csv_path else {}
+
         if src_path.is_dir():
-            for src_dcm_dir in src_path.iterdir():
+            dir_count = len(list(filter(Path.is_dir, src_path.iterdir())))
+            for dir_index, src_dcm_dir in enumerate(src_path.iterdir(), start=1):
                 if src_dcm_dir.is_dir() and src_dcm_dir.name.startswith('DCM'):
                     run_deidentifier(src_dcm_dir, mrn_id_mapping)
+                # Update and print the progress percentage
+                progress = (processed_dirs + dir_index / dir_count) / total_count
+                print(f"Progress: {progress:.2%}")
+                yield progress
+            processed_dirs += 1
         else:
             run_deidentifier(src_path, mrn_id_mapping)
-    return "success"
+            processed_files += 1
+            progress = (processed_dirs + processed_files) / total_count
+            yield progress
+            print(f"Progress: {progress:.2%}")
+
+    return f"De-identification completed with {progress:.2%} progress."
