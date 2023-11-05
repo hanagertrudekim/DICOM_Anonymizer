@@ -52,14 +52,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             folder_display_text = ""
             for i, folder in enumerate(self.dicom_folder):
                 if i < 4:  # Only show the first four directories
-                    folder_display_text += f"📁 {folder}\n"
+                    folder_display_text += f"<br>📁 {folder}<br>"
                 else:
-                    folder_display_text += "...\n"
+                    folder_display_text += "<br>..."
                     break  # Stop after adding the ellipsis
             
             self.folderPath.setText(folder_display_text)
             print("선택된 DICOM 디렉토리:", self.dicom_folder)
-
 
     def submitBtnclick(self):
         if self.dicom_folder:
