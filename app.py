@@ -81,7 +81,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_main_finished(self):
         self.progressBar.setValue(100)  # 작업 완료 시 프로그레스바를 100%로 설정
         print("submit dicom path")
-        self.statusLabel.setText(" ✅ complete DICOM de-Identifier")
+        self.statusLabel.setText(" ✅ DICOM de-identification completed. Please check the directory.")
 
 
 app = QtWidgets.QApplication(sys.argv)
