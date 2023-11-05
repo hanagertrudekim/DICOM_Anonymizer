@@ -7,7 +7,7 @@ import importlib
 
 
 class WorkerThread(QThread):
-    finished = pyqtSignal()
+    finished = pyqtSignal(str)
     progress = pyqtSignal(int)  # int is sufficient for progress as a percentage
 
     def __init__(self, dicom_folder, function):
@@ -16,9 +16,17 @@ class WorkerThread(QThread):
         self.function = function
 
     def run(self):
-        for progress in self.function(self.dicom_folder):
-            self.progress.emit(int(progress * 100))  # Emit the progress signal as a percentage
-        self.finished.emit()
+        result_message = None  # Initialize a variable for the result message
+        try:
+            for output in self.function(self.dicom_folder):
+                if isinstance(output, (int, float)):
+                    self.progress.emit(int(output * 100))  # Emit progress if it's a number
+                elif isinstance(output, str):
+                    result_message = output  # Store the result message if it's a string
+        except Exception as e:
+            result_message = str(e)  # Store any exception messages
+        finally:
+            self.finished.emit(result_message) 
 
 
 
@@ -78,10 +86,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def update_progress_bar(self, value):
         self.progressBar.setValue(value)  # 프로그레스바 값 업데이트
 
-    def on_main_finished(self):
-        self.progressBar.setValue(100)  # 작업 완료 시 프로그레스바를 100%로 설정
-        print("submit dicom path")
-        self.statusLabel.setText(" ✅ DICOM de-identification completed. Please check the directory.")
+    def on_main_finished(self, message):
+        if "completed" in message:
+            self.progressBar.setValue(100)  # 작업 완료 시 프로그레스바를 100%로 설정
+            self.statusLabel.setText(" ✅ " + message)
+        else:
+            self.progressBar.hide()
+            self.statusLabel.setText(" 🔴 " + message)
 
 
 app = QtWidgets.QApplication(sys.argv)

@@ -56,7 +56,6 @@ def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, 
                 'ct_date': getattr(dcm, "AcquisitionDate", ""),
                 'MRN': getattr(dcm, "PatientID", ""),
             }
-
     return series_metadata
 
 def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path):
@@ -108,6 +107,8 @@ def main(src_paths: List[str]):
     progress = 0
     processed_dirs = 0
     processed_files = 0
+    dir_index = 0
+    deid_performed = False
 
     for src_path in src_paths:
         src_path = Path(src_path).resolve()
@@ -115,19 +116,21 @@ def main(src_paths: List[str]):
 
         if src_path.is_dir():
             dir_count = len(list(filter(Path.is_dir, src_path.iterdir())))
+
             for dir_index, src_dcm_dir in enumerate(src_path.iterdir(), start=1):
                 if src_dcm_dir.is_dir() and src_dcm_dir.name.startswith('DCM'):
                     run_deidentifier(src_dcm_dir, mrn_id_mapping)
-                # Update and print the progress percentage
+                    deid_performed = True
+                # Update progress percentage
                 progress = (processed_dirs + dir_index / dir_count) / total_count
                 print(f"Progress: {progress:.2%}")
                 yield progress
             processed_dirs += 1
+            print(processed_dirs)
         else:
-            run_deidentifier(src_path, mrn_id_mapping)
-            processed_files += 1
-            progress = (processed_dirs + processed_files) / total_count
-            yield progress
-            print(f"Progress: {progress:.2%}")
+            yield "Invalid DICOM directory"
 
-    return f"De-identification completed with {progress:.2%} progress."
+    if not deid_performed:
+        yield "De-identification has not been performed. Please provide a valid DICOM directory."
+    else:
+        yield f"De-identification completed with {progress:.2%} progress."
