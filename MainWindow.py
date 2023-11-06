@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.folderPath.sizePolicy().hasHeightForWidth())
         self.folderPath.setSizePolicy(sizePolicy)
-        self.folderPath.setMinimumSize(QtCore.QSize(0, 130))
+        self.folderPath.setMinimumSize(QtCore.QSize(0, 150))
         self.folderPath.setBaseSize(QtCore.QSize(0, 150))
         font = QtGui.QFont()
         font.setPointSize(13)

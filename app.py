@@ -5,41 +5,39 @@ from PyQt6.QtWidgets import QFileDialog, QListView, QTreeView, QAbstractItemView
 from MainWindow import Ui_MainWindow
 import importlib
 
+dicom_deidentifier = importlib.import_module("dicom_deidentifier")
 
 class WorkerThread(QThread):
     finished = pyqtSignal(str)
-    progress = pyqtSignal(int)  # int is sufficient for progress as a percentage
+    progress = pyqtSignal(int)
 
-    def __init__(self, dicom_folder, function):
+    def __init__(self, dicom_folder):
         super().__init__()
         self.dicom_folder = dicom_folder
-        self.function = function
 
     def run(self):
-        result_message = None  # Initialize a variable for the result message
         try:
-            for output in self.function(self.dicom_folder):
+            for output in dicom_deidentifier.main(self.dicom_folder):
                 if isinstance(output, (int, float)):
-                    self.progress.emit(int(output * 100))  # Emit progress if it's a number
+                    self.progress.emit(int(output * 100))
                 elif isinstance(output, str):
-                    result_message = output  # Store the result message if it's a string
+                    self.finished.emit(output)
+                    return
         except Exception as e:
-            result_message = str(e)  # Store any exception messages
-        finally:
-            self.finished.emit(result_message) 
-
+            self.finished.emit(f"Error: {e}")
+        else:
+            self.finished.emit("Unknown error occurred")
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    def __init__(self, *args, obj=None, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
+    def __init__(self):
+        super().__init__()
         self.setupUi(self)
 
         self.selectButton.clicked.connect(self.getDirectory)
         self.submitButton.clicked.connect(self.submitBtnclick)
-        self.progressBar.hide() # progressbar 감추기
+        self.progressBar.hide()
 
-        # 인스턴스 변수로 dicom_folder를 선언
         self.dicom_folder = ""
 
     def getDirectory(self):
@@ -56,43 +54,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if file_dialog.exec():
             self.dicom_folder = file_dialog.selectedFiles()
-            # Update the folder display here
-            folder_display_text = ""
-            for i, folder in enumerate(self.dicom_folder):
-                if i < 4:  # Only show the first four directories
-                    folder_display_text += f"<br>📁 {folder}<br>"
-                else:
-                    folder_display_text += "<br>..."
-                    break  # Stop after adding the ellipsis
-            
-            self.folderPath.setText(folder_display_text)
-            print("선택된 DICOM 디렉토리:", self.dicom_folder)
+            self.updateFolderPathDisplay()
+
+    def updateFolderPathDisplay(self):
+        folder_display_text = "<br>" + "<br>".join(f"📁 {folder}<br>" for folder in self.dicom_folder[:4])
+        if len(self.dicom_folder) > 4:
+            folder_display_text += "<br>..."
+        self.folderPath.setText(folder_display_text)
 
     def submitBtnclick(self):
-        if self.dicom_folder:
-            dicom_deidentifier = importlib.import_module("dicom_deidentifier")
-            self.progressBar.show()  # Show the progress bar
-            self.progressBar.setValue(0)  # Reset the progress bar to 0%
+        if not self.dicom_folder:
+            self.updateStatus(" 🔵 No DICOM directory selected.")
+            return
 
-            self.worker = WorkerThread(self.dicom_folder, dicom_deidentifier.main)
-            self.worker.progress.connect(self.update_progress_bar)  # 진행 상태 시그널을 연결합니다.
-            self.worker.finished.connect(self.on_main_finished)  # 완료 시그널을 연결합니다.
-            self.worker.start()
-            self.statusLabel.setText(" 🔄 Processing...")
-        else:
-            print("🔵 No DICOM directory selected.")
-            self.statusLabel.setText(" 🔵 No DICOM directory selected.")
+        self.progressBar.show()
+        self.progressBar.setValue(0)
+        self.updateStatus(" 🔄 Processing...")
 
-    def update_progress_bar(self, value):
-        self.progressBar.setValue(value)  # 프로그레스바 값 업데이트
+        self.worker = WorkerThread(self.dicom_folder)
+        self.worker.progress.connect(self.progressBar.setValue)
+        self.worker.finished.connect(self.on_main_finished)
+        self.worker.start()
 
     def on_main_finished(self, message):
-        if "completed" in message:
-            self.progressBar.setValue(100)  # 작업 완료 시 프로그레스바를 100%로 설정
-            self.statusLabel.setText(" ✅ " + message)
+        if "completed" in message.lower():
+            self.progressBar.setValue(100)
         else:
             self.progressBar.hide()
-            self.statusLabel.setText(" 🔴 " + message)
+        self.updateStatus(message)
+
+    def updateStatus(self, message):
+        self.statusLabel.setText(message)
 
 
 app = QtWidgets.QApplication(sys.argv)
