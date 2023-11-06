@@ -5,7 +5,10 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[('dicom_deidentifier.py', 'dicom_deidentifier.py'), ('MainWindow.py', 'MainWindow.py')],
+    datas=[
+        ('dicom_deidentifier.py', '.'), 
+        ('MainWindow.py', '.')
+    ],
     hiddenimports = collect_submodules('pydicom'),
     hookspath=[],
     hooksconfig={},
@@ -28,7 +31,7 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
