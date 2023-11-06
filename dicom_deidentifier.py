@@ -6,7 +6,6 @@ import uuid
 import pandas as pd
 from pydicom import dcmread
 from tqdm import tqdm
-from loguru import logger
 from typing import List, Dict, Generator
 
 # Constants
@@ -41,17 +40,14 @@ def prepare_output_dir(parent_dir: Path, src_dcm_dir_name: str, subj: str) -> Pa
 def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, str]]:
     series_metadata = {}
     for dcm_path in tqdm(dcm_paths, desc="Analyzing series", position=1, leave=False):
-        try:
-            dcm = dcmread(dcm_path, force=True)
-            series_uid = dcm.SeriesInstanceUID
-            if series_uid not in series_metadata:
-                series_metadata[series_uid] = {
-                    'subj': subj,
-                    'ct_date': getattr(dcm, "AcquisitionDate", ""),
-                    'MRN': getattr(dcm, "PatientID", ""),
-                }
-        except AttributeError:
-            logger.error(f"{dcm_path} - No SeriesInstanceUID")
+        dcm = dcmread(dcm_path, force=True)
+        series_uid = dcm.SeriesInstanceUID
+        if series_uid not in series_metadata:
+            series_metadata[series_uid] = {
+                'subj': subj,
+                'ct_date': getattr(dcm, "AcquisitionDate", ""),
+                'MRN': getattr(dcm, "PatientID", ""),
+            }
     return series_metadata
 
 def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path):
@@ -109,7 +105,7 @@ def process_directory(src_path: Path, mrn_id_mapping: dict, processed_dirs: int,
             deid_performed = True
 
         progress = update_progress(processed_dirs, total_count, dir_index, dir_count)
-        yield progress
+        yield progress, deid_performed
 
     return deid_performed
 
@@ -129,7 +125,8 @@ def main(src_paths: List[str]) -> Generator:
         mrn_id_mapping = read_csv_mapping(csv_path) if csv_path else {}
 
         if src_path.is_dir():
-            for progress in process_directory(src_path, mrn_id_mapping, processed_dirs, total_count):
+            for progress, dir_deid_performed in process_directory(src_path, mrn_id_mapping, processed_dirs, total_count):
+                deid_performed = deid_performed or dir_deid_performed
                 yield progress
             processed_dirs += 1
         else:
