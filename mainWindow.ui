@@ -20,10 +20,10 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="11" column="1" colspan="3">
-       <widget class="QLabel" name="folderPath">
+      <item row="13" column="1" colspan="3">
+       <widget class="QProgressBar" name="progressBar">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -31,52 +31,11 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>150</height>
+          <height>0</height>
          </size>
         </property>
-        <property name="baseSize">
-         <size>
-          <width>0</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="mouseTracking">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(235, 235, 235);</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1" colspan="2">
-       <widget class="QLabel" name="label_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(145, 145, 145);</string>
-        </property>
-        <property name="text">
-         <string>( DICOM folder name should be SUBJ_CTDATE: ex) KU39009_20220921 )</string>
+        <property name="value">
+         <number>24</number>
         </property>
        </widget>
       </item>
@@ -107,8 +66,8 @@ color: #91C9F8;</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="2" alignment="Qt::AlignHCenter">
-       <widget class="QLabel" name="Title">
+      <item row="11" column="1" colspan="3">
+       <widget class="QLabel" name="folderPath">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -117,33 +76,93 @@ color: #91C9F8;</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
-          <height>70</height>
+          <width>0</width>
+          <height>130</height>
          </size>
         </property>
-        <property name="maximumSize">
+        <property name="baseSize">
          <size>
-          <width>200</width>
-          <height>100</height>
+          <width>0</width>
+          <height>150</height>
          </size>
         </property>
         <property name="font">
          <font>
-          <family>.AppleSystemUIFont</family>
-          <pointsize>-1</pointsize>
-          <bold>false</bold>
-          <underline>false</underline>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="mouseTracking">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(235, 235, 235);</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1" colspan="2">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size: 28px;
-color: white;</string>
+         <string notr="true">color: rgb(145, 145, 145);</string>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt; font-weight:700;&quot;&gt;DICOM Form&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Please select one or multiple Raw DICOM Folders.</string>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignHCenter|Qt::AlignTop</set>
+       </widget>
+      </item>
+      <item row="10" column="1" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(145, 145, 145);</string>
+        </property>
+        <property name="text">
+         <string>( DICOM folder name should be SUBJ_CTDATE: ex) KU39009_20220921 )</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0" colspan="5">
+       <widget class="QLabel" name="label_5">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>130</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -180,65 +199,8 @@ color: white;
         </property>
        </widget>
       </item>
-      <item row="16" column="3" colspan="2" alignment="Qt::AlignHCenter">
-       <widget class="QPushButton" name="submitButton">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>120</width>
-          <height>40</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>.AppleSystemUIFont</family>
-          <pointsize>-1</pointsize>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: #101010;
-font-size: 15px;
-color: #91C9F8;
-
-</string>
-        </property>
-        <property name="text">
-         <string>SUBMIT</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="1" colspan="3">
-       <widget class="QProgressBar" name="progressBar">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="value">
-         <number>24</number>
-        </property>
-       </widget>
-      </item>
-      <item row="17" column="0" colspan="5">
-       <widget class="QLabel" name="label_5">
+      <item row="4" column="2" alignment="Qt::AlignHCenter">
+       <widget class="QLabel" name="Title">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -247,33 +209,33 @@ color: #91C9F8;
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>130</height>
+          <width>200</width>
+          <height>100</height>
          </size>
         </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1" colspan="2">
-       <widget class="QLabel" name="label_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>100</height>
+         </size>
         </property>
         <property name="font">
          <font>
-          <pointsize>12</pointsize>
+          <family>.AppleSystemUIFont</family>
+          <pointsize>-1</pointsize>
+          <bold>false</bold>
+          <underline>false</underline>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(145, 145, 145);</string>
+         <string notr="true">font-size: 28px;
+color: white;</string>
         </property>
         <property name="text">
-         <string>Please select one or multiple Raw DICOM Folders.</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;DICOM Form&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
         </property>
        </widget>
       </item>
@@ -308,6 +270,44 @@ color: #91C9F8;
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="3">
+       <widget class="QPushButton" name="submitButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>130</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>.AppleSystemUIFont</family>
+          <pointsize>-1</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: #101010;
+font-size: 15px;
+color: #91C9F8;
+
+</string>
+        </property>
+        <property name="text">
+         <string>SUBMIT</string>
         </property>
        </widget>
       </item>
