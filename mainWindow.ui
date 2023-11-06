@@ -209,13 +209,13 @@ color: white;
         </property>
         <property name="minimumSize">
          <size>
-          <width>200</width>
+          <width>220</width>
           <height>100</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>16777215</width>
           <height>100</height>
          </size>
         </property>
@@ -228,11 +228,11 @@ color: white;
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size: 28px;
-color: white;</string>
+         <string notr="true">color: white;
+font-size: 27px;</string>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;DICOM Form&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;DICOM Form&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignHCenter|Qt::AlignTop</set>
