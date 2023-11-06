@@ -33,7 +33,7 @@ def get_dcm_paths(src_dcm_dir: Path) -> List[Path]:
     return list(src_dcm_dir.rglob("*[!.zip]"))
 
 def prepare_output_dir(parent_dir: Path, src_dcm_dir_name: str, subj: str) -> Path:
-    deid_dcm_dir = parent_dir / f"{parent_dir.name}_deid" / f"{subj}_{src_dcm_dir_name}"
+    deid_dcm_dir = parent_dir / f"{parent_dir.name}_deid" / src_dcm_dir_name
     deid_dcm_dir.mkdir(parents=True, exist_ok=True)
     return deid_dcm_dir
 
