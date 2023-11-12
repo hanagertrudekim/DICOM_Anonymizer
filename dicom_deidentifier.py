@@ -6,7 +6,7 @@ import uuid
 import pandas as pd
 from pydicom import dcmread
 from tqdm import tqdm
-from typing import List, Dict, Generator
+from typing import List, Dict, Generator, Tuple
 
 # Constants
 TAGS_TO_ANONYMIZE = [
@@ -114,7 +114,7 @@ def process_directory(src_path: Path, mrn_id_mapping: dict, processed_dirs: int,
 
     return deid_performed
 
-def count_directories_and_files(src_paths: List[str]) -> (int, int):
+def count_directories_and_files(src_paths: List[str]) -> Tuple[int, int]:
     total_dirs = sum(1 for src_path in src_paths if Path(src_path).is_dir())
     total_files = sum(1 for src_path in src_paths if not Path(src_path).is_dir())
     return total_dirs, total_files
