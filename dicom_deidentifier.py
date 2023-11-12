@@ -52,8 +52,8 @@ def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, 
     return series_metadata
 
 #시리즈 메타 데이터 csv 파일 저장
-def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path):
-    csv_path = output_dir / "dcm_metadata.csv"
+def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str):
+    csv_path = output_dir / f"dcm_metadata_{subj}.csv"
     with csv_path.open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=["subj", "MRN", "ct_date"])
         writer.writeheader()
@@ -92,7 +92,7 @@ def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str], dst_path
     output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj) if dst_path is None else dst_path
 
     series_metadata = analyze_dcm_series(dcm_paths, subj)
-    export_series_metadata(series_metadata, output_dir)
+    export_series_metadata(series_metadata, output_dir, subj)
 
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
         process_dcm_file(dcm_path, output_dir, subj)
