@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1062, 660)
+        MainWindow.resize(1062, 666)
         MainWindow.setStyleSheet("background-color: #101010;")
         self.centralWidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralWidget.setObjectName("centralWidget")
@@ -95,18 +95,22 @@ class Ui_MainWindow(object):
         self.label_5.setObjectName("label_5")
         self.gridLayout_2.addWidget(self.label_5, 17, 0, 1, 5)
         self.header = QtWidgets.QLabel(parent=self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.header.sizePolicy().hasHeightForWidth())
         self.header.setSizePolicy(sizePolicy)
-        self.header.setMinimumSize(QtCore.QSize(0, 72))
+        self.header.setMinimumSize(QtCore.QSize(0, 35))
+        self.header.setMaximumSize(QtCore.QSize(16777215, 35))
         self.header.setAccessibleDescription("")
         self.header.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.header.setStyleSheet("font-size: 15px;\n"
+        self.header.setStyleSheet("font-size: 14px;\n"
 "color: white;\n"
-"")
-        self.header.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignTop)
+"border-bottom: 0.7px solid rgb(94, 94, 94);\n"
+"letter-spacing: 0.2em;\n"
+"padding-left: 3px;\n"
+"padding-bottom: 2px;")
+        self.header.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.header.setObjectName("header")
         self.gridLayout_2.addWidget(self.header, 0, 0, 1, 5, QtCore.Qt.AlignmentFlag.AlignTop)
         self.Title = QtWidgets.QLabel(parent=self.centralWidget)
@@ -176,6 +180,6 @@ class Ui_MainWindow(object):
         self.selectButton.setText(_translate("MainWindow", "SELECT FOLDER"))
         self.label_2.setText(_translate("MainWindow", "Please select one or multiple Raw DICOM Folders."))
         self.label_3.setText(_translate("MainWindow", "( DICOM folder name should be SUBJ_CTDATE: ex) KU39009_20220921 )"))
-        self.header.setText(_translate("MainWindow", "SNU-H"))
+        self.header.setText(_translate("MainWindow", "LAMIS"))
         self.Title.setText(_translate("MainWindow", "<html><head/><body><p>DICOM Form</p></body></html>"))
         self.submitButton.setText(_translate("MainWindow", "SUBMIT"))

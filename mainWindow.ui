@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1062</width>
-    <height>660</height>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -169,7 +169,7 @@ color: #91C9F8;</string>
       <item row="0" column="0" colspan="5" alignment="Qt::AlignTop">
        <widget class="QLabel" name="header">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -177,7 +177,13 @@ color: #91C9F8;</string>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>72</height>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>35</height>
          </size>
         </property>
         <property name="accessibleDescription">
@@ -187,15 +193,18 @@ color: #91C9F8;</string>
          <enum>Qt::LeftToRight</enum>
         </property>
         <property name="styleSheet">
-         <string notr="true">font-size: 15px;
+         <string notr="true">font-size: 14px;
 color: white;
-</string>
+border-bottom: 0.7px solid rgb(94, 94, 94);
+letter-spacing: 0.2em;
+padding-left: 3px;
+padding-bottom: 2px;</string>
         </property>
         <property name="text">
-         <string>SNU-H</string>
+         <string>LAMIS</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
