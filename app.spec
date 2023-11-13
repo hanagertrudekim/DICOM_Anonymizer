@@ -24,7 +24,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='app',
+    name='DICOM_Anonymizer.v2',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
