@@ -33,7 +33,8 @@ def get_dcm_paths(src_dcm_dir: Path) -> List[Path]:
 
 #output 디렉토리 생성
 def prepare_output_dir(parent_dir: Path, src_dcm_dir_name: str, subj: str) -> Path:
-    deid_dcm_dir = parent_dir / f"{parent_dir.name}_deid" / src_dcm_dir_name
+    deid_dcm_dir = parent_dir.parent / f"{parent_dir.name}_deid"
+    print('deid_dcm_dir: ', deid_dcm_dir)
     deid_dcm_dir.mkdir(parents=True, exist_ok=True)
     return deid_dcm_dir
 
@@ -53,7 +54,7 @@ def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, 
 
 #시리즈 메타 데이터 csv 파일 저장
 def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str):
-    csv_path = output_dir / f"dcm_metadata_{subj}.csv"
+    csv_path = output_dir / f"deid_{subj}.csv"
     with csv_path.open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=["subj", "MRN", "ct_date"])
         writer.writeheader()
@@ -76,8 +77,9 @@ def deidentify_dcm_file(dcm: dcmread, subj: str) -> None:
 #dicom deid 프로세스 진행
 def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str) -> None:
     dcm = dcmread(dcm_path)
-    parsed_description = parse_series_description(dcm.SeriesDescription)
-    deid_series_dir = output_dir / f"DCM_{subj}_{parsed_description}"
+    parsed_ct_date = parse_series_description(dcm.AcquisitionDate)
+    deid_series_dir = output_dir / f"DCM_{subj}_{parsed_ct_date}"
+    print(deid_series_dir)
     deid_series_dir.mkdir(parents=True, exist_ok=True)
 
     deidentify_dcm_file(dcm, subj)
@@ -88,6 +90,7 @@ def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str) -> None:
 # subj생성, directory 준비, metadata 추출
 def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str], dst_path: Path = None):
     dcm_paths = get_dcm_paths(src_dcm_dir)
+    # TODO: 생성할지 안할지 결정하는 코드 추가
     subj = mrn_id_mapping.get(src_dcm_dir.name, str(uuid.uuid4()))
     output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj) if dst_path is None else dst_path
 
