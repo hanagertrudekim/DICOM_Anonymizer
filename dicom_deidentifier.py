@@ -53,12 +53,17 @@ def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, 
     return series_metadata
 
 #시리즈 메타 데이터 csv 파일 저장
-def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str):
-    csv_path = output_dir / f"deid_{subj}.csv"
+def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str, ct_date: str):
+    csv_path = output_dir / f"deid_{subj}_{ct_date}.csv"
     with csv_path.open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=["subj", "MRN", "ct_date"])
         writer.writeheader()
-        writer.writerows(series_metadata.values())
+        for series_data in series_metadata.values():
+            writer.writerow({
+                'subj': series_data['subj'],
+                'MRN': series_data['MRN'],
+                'ct_date': ct_date
+            })
 
 def parse_series_description(description: str) -> str:
     clean_description = description.strip().replace(".", "P")
@@ -75,10 +80,11 @@ def deidentify_dcm_file(dcm: dcmread, subj: str) -> None:
     dcm.remove_private_tags()
 
 #dicom deid 프로세스 진행
-def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str) -> None:
+def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str, ct_date: str) -> None:
     dcm = dcmread(dcm_path)
-    parsed_ct_date = parse_series_description(dcm.AcquisitionDate)
-    deid_series_dir = output_dir / f"DCM_{subj}_{parsed_ct_date}"
+    parsed_series_description = parse_series_description(dcm.SeriesDescription)
+
+    deid_series_dir = output_dir / f"DCM_{subj}_{ct_date}_{parsed_series_description}"
     print(deid_series_dir)
     deid_series_dir.mkdir(parents=True, exist_ok=True)
 
@@ -93,12 +99,14 @@ def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str], dst_path
     # TODO: 생성할지 안할지 결정하는 코드 추가
     subj = mrn_id_mapping.get(src_dcm_dir.name, str(uuid.uuid4()))
     output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj) if dst_path is None else dst_path
-
     series_metadata = analyze_dcm_series(dcm_paths, subj)
-    export_series_metadata(series_metadata, output_dir, subj)
+
+    ct_date = next(iter(series_metadata.values()))['ct_date'] if series_metadata else ""
+    parsed_ct_date = parse_series_description(ct_date)
+    export_series_metadata(series_metadata, output_dir, subj, parsed_ct_date)
 
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
-        process_dcm_file(dcm_path, output_dir, subj)
+        process_dcm_file(dcm_path, output_dir, subj, parsed_ct_date)
 
 def update_progress(processed: int, total: int, current: int, current_total: int) -> float:
     return (processed + (current / current_total)) / total
