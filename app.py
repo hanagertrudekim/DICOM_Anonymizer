@@ -57,7 +57,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.updateFolderPathDisplay()
 
     def updateFolderPathDisplay(self):
-        folder_display_text = "<br>" + "<br>".join(f"📁 {folder}<br>" for folder in self.dicom_folder[:4])
+        folder_display_text = "<br>".join(f"📁 {folder}<br>" for folder in self.dicom_folder[:4])
         if len(self.dicom_folder) > 4:
             folder_display_text += "<br>..."
         self.folderPath.setText(folder_display_text)
