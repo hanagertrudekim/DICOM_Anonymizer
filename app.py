@@ -11,13 +11,14 @@ class WorkerThread(QThread):
     finished = pyqtSignal(str)
     progress = pyqtSignal(int)
 
-    def __init__(self, dicom_folder):
+    def __init__(self, dicom_folder, mrn):
         super().__init__()
         self.dicom_folder = dicom_folder
+        self.mrn = mrn
 
     def run(self):
         try:
-            for output in dicom_deidentifier.main(self.dicom_folder):
+            for output in dicom_deidentifier.main(self.dicom_folder, self.mrn):
                 if isinstance(output, (int, float)):
                     self.progress.emit(int(output * 100))
                 elif isinstance(output, str):
@@ -36,6 +37,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.selectButton.clicked.connect(self.getDirectory)
         self.submitButton.clicked.connect(self.submitBtnclick)
+
         self.progressBar.hide()
 
         self.dicom_folder = ""
@@ -67,11 +69,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.updateStatus(" 🔵 No DICOM directory selected.")
             return
 
+        mrn = self.mrnInput.text()
+
         self.progressBar.show()
         self.progressBar.setValue(0)
         self.updateStatus(" 🔄 Processing...")
 
-        self.worker = WorkerThread(self.dicom_folder)
+        self.worker = WorkerThread(self.dicom_folder, mrn)
         self.worker.progress.connect(self.progressBar.setValue)
         self.worker.finished.connect(self.on_main_finished)
         self.worker.start()
