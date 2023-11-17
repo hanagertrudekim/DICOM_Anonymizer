@@ -39,17 +39,19 @@ def prepare_output_dir(parent_dir: Path, src_dcm_dir_name: str, subj: str) -> Pa
     return deid_dcm_dir
 
 #dicom 분석해서 시리즈 메타 데이터 분석
-def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, str]]:
+def analyze_dcm_series(dcm_paths: List[Path], input_mrn: str) -> Dict[str, Dict[str, str]]:
     series_metadata = {}
     for dcm_path in tqdm(dcm_paths, desc="Analyzing series", position=1, leave=False):
         dcm = dcmread(dcm_path, force=True)
         series_uid = dcm.SeriesInstanceUID
+        file_mrn = getattr(dcm, "PatientID", "")
         if series_uid not in series_metadata:
             series_metadata[series_uid] = {
-                'subj': subj,
+                'subj': input_mrn if input_mrn == file_mrn else str(uuid.uuid4()),
                 'ct_date': getattr(dcm, "AcquisitionDate", ""),
-                'MRN': getattr(dcm, "PatientID", ""),
+                'MRN': file_mrn,
             }
+    # TODO: 일치하는 mrn 존재 => mrn보내기
     return series_metadata
 
 #시리즈 메타 데이터 csv 파일 저장
@@ -60,7 +62,7 @@ def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_di
         writer.writeheader()
         for series_data in series_metadata.values():
             writer.writerow({
-                'subj': series_data['subj'],
+                'subj': subj,
                 'MRN': series_data['MRN'],
                 'ct_date': ct_date
             })
@@ -94,15 +96,15 @@ def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str, ct_date: str) 
     dcm.save_as(deid_dcm_path)
 
 # subj생성, directory 준비, metadata 추출
-def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str], dst_path: Path = None):
+def run_deidentifier(src_dcm_dir: Path, input_mrn: str):
     dcm_paths = get_dcm_paths(src_dcm_dir)
-    # TODO: 생성할지 안할지 결정하는 코드 추가
-    subj = mrn_id_mapping.get(src_dcm_dir.name, str(uuid.uuid4()))
-    output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj) if dst_path is None else dst_path
-    series_metadata = analyze_dcm_series(dcm_paths, subj)
+    series_metadata = analyze_dcm_series(dcm_paths, input_mrn)
 
+    subj = next(iter(series_metadata.values()))['subj'] if series_metadata else ""
     ct_date = next(iter(series_metadata.values()))['ct_date'] if series_metadata else ""
     parsed_ct_date = parse_series_description(ct_date)
+
+    output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj)
     export_series_metadata(series_metadata, output_dir, subj, parsed_ct_date)
 
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
@@ -111,13 +113,13 @@ def run_deidentifier(src_dcm_dir: Path, mrn_id_mapping: Dict[str, str], dst_path
 def update_progress(processed: int, total: int, current: int, current_total: int) -> float:
     return (processed + (current / current_total)) / total
 
-def process_directory(src_path: Path, mrn_id_mapping: dict, processed_dirs: int, total_count: int) -> bool:
+def process_directory(src_path: Path, input_mrn: str, processed_dirs: int, total_count: int) -> bool:
     deid_performed = False
     dir_count = len(list(filter(Path.is_dir, src_path.iterdir())))
 
     for dir_index, src_dcm_dir in enumerate(src_path.iterdir(), start=1):
         if src_dcm_dir.is_dir() and src_dcm_dir.name.startswith('DCM'):
-            run_deidentifier(src_dcm_dir, mrn_id_mapping)
+            run_deidentifier(src_dcm_dir, input_mrn)
             deid_performed = True
 
         progress = update_progress(processed_dirs, total_count, dir_index, dir_count)
@@ -130,7 +132,7 @@ def count_directories_and_files(src_paths: List[str]) -> Tuple[int, int]:
     total_files = sum(1 for src_path in src_paths if not Path(src_path).is_dir())
     return total_dirs, total_files
 
-def main(src_paths: List[str]) -> Generator:
+def main(src_paths: List[str], input_mrn: str) -> Generator:
     total_dirs, total_files = count_directories_and_files(src_paths)
     total_count = total_dirs + total_files
     processed_dirs = 0
@@ -138,11 +140,10 @@ def main(src_paths: List[str]) -> Generator:
 
     for src_path in src_paths:
         src_path = Path(src_path).resolve()
-        mrn_id_mapping = read_csv_mapping(csv_path) if csv_path else {}
 
         if src_path.is_dir():
-            for progress, dir_deid_performed in process_directory(src_path, mrn_id_mapping, processed_dirs, total_count):
-                deid_performed = deid_performed or dir_deid_performed
+            for progress, dir_deid_performed in process_directory(src_path, input_mrn, processed_dirs, total_count):
+                deid_performed = deid_performed or dir_deid_performed 
                 yield progress
             processed_dirs += 1
         else:
