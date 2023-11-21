@@ -219,6 +219,6 @@ class Ui_MainWindow(object):
         self.selectButton.setText(_translate("MainWindow", "SELECT FOLDER"))
         self.label_3.setText(_translate("MainWindow", "(DICOM folder name should be SUBJ_CTDATE: ex) KU39009_20220921)"))
         self.header.setText(_translate("MainWindow", "LAMIS"))
-        self.mrnInput.setPlaceholderText(_translate("MainWindow", "MRN number"))
+        self.mrnInput.setPlaceholderText(_translate("MainWindow", "Subj"))
         self.Title.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:23pt;\">DICOM Form</span></p></body></html>"))
         self.label_2.setText(_translate("MainWindow", "Please select one or multiple Raw DICOM Folders."))
