@@ -137,16 +137,16 @@ class Ui_MainWindow(object):
         self.header.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.header.setObjectName("header")
         self.gridLayout_2.addWidget(self.header, 4, 1, 1, 5)
-        self.mrnInput = QtWidgets.QLineEdit(parent=self.centralWidget)
-        self.mrnInput.setMinimumSize(QtCore.QSize(0, 35))
-        self.mrnInput.setStyleSheet("border: none;\n"
+        self.subjInput = QtWidgets.QLineEdit(parent=self.centralWidget)
+        self.subjInput.setMinimumSize(QtCore.QSize(0, 35))
+        self.subjInput.setStyleSheet("border: none;\n"
 "border-bottom: 0.5px solid rgb(214, 214, 214);\n"
 "color: white;\n"
 "margin: 0 50px 5px 10px;")
-        self.mrnInput.setInputMask("")
-        self.mrnInput.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.mrnInput.setObjectName("mrnInput")
-        self.gridLayout_2.addWidget(self.mrnInput, 8, 3, 1, 1)
+        self.subjInput.setInputMask("")
+        self.subjInput.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.subjInput.setObjectName("subjInput")
+        self.gridLayout_2.addWidget(self.subjInput, 8, 3, 1, 1)
         self.Title = QtWidgets.QLabel(parent=self.centralWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -219,6 +219,6 @@ class Ui_MainWindow(object):
         self.selectButton.setText(_translate("MainWindow", "SELECT FOLDER"))
         self.label_3.setText(_translate("MainWindow", "(DICOM folder name should be SUBJ_CTDATE: ex) KU39009_20220921)"))
         self.header.setText(_translate("MainWindow", "LAMIS"))
-        self.mrnInput.setPlaceholderText(_translate("MainWindow", "Subj"))
+        self.subjInput.setPlaceholderText(_translate("MainWindow", "Subj"))
         self.Title.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:23pt;\">DICOM Form</span></p></body></html>"))
         self.label_2.setText(_translate("MainWindow", "Please select one or multiple Raw DICOM Folders."))

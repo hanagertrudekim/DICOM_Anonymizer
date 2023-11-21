@@ -251,7 +251,7 @@ padding-bottom: 2px;</string>
        </widget>
       </item>
       <item row="8" column="3">
-       <widget class="QLineEdit" name="mrnInput">
+       <widget class="QLineEdit" name="subjInput">
         <property name="minimumSize">
          <size>
           <width>0</width>
