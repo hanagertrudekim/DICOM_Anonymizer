@@ -53,7 +53,7 @@ def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, 
     return series_metadata
 
 #시리즈 메타 데이터 csv 파일 저장
-def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str, ct_date: str):
+def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str):
     csv_path = output_dir / f"deid_{subj}_{ct_date}.csv"
     with csv_path.open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=["subj", "MRN", "ct_date"])
@@ -62,7 +62,7 @@ def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_di
             writer.writerow({
                 'subj': subj,
                 'MRN': series_data['MRN'],
-                'ct_date': ct_date
+                'ct_date': series_data['ct_date'],
             })
 
 def parse_series_description(description: str) -> str:
@@ -82,7 +82,7 @@ def deidentify_dcm_file(dcm: dcmread, subj: str) -> None:
 #dicom deid 프로세스 진행
 def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str, ct_date: str) -> None:
     dcm = dcmread(dcm_path)
-    parsed_series_description = parse_series_description(dcm.SeriesDescription)
+    parsed_series_description = parse_series_description(dcm.SeriesDescription if dcm.SeriesDescription else "")
 
     deid_series_dir = output_dir / f"DCM_{subj}_{ct_date}_{parsed_series_description}"
     print(deid_series_dir)
@@ -93,21 +93,18 @@ def process_dcm_file(dcm_path: Path, output_dir: Path, subj: str, ct_date: str) 
     deid_dcm_path = deid_series_dir / dcm_path.name
     dcm.save_as(deid_dcm_path)
 
-# subj생성, directory 준비, metadata 추출
 def run_deidentifier(src_dcm_dir: Path, input_subj: str):
     dcm_paths = get_dcm_paths(src_dcm_dir)
-
-    subj = input_subj if input_subj else str(uuid.uuid4())
+    subj = parse_series_description(input_subj) if input_subj else str(uuid.uuid4())
     series_metadata = analyze_dcm_series(dcm_paths, subj)
-
     ct_date = next(iter(series_metadata.values()))['ct_date'] if series_metadata else ""
     parsed_ct_date = parse_series_description(ct_date)
 
-    output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj)
-    export_series_metadata(series_metadata, output_dir, subj, parsed_ct_date)
-
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
         process_dcm_file(dcm_path, output_dir, subj, parsed_ct_date)
+
+    output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj)
+    export_series_metadata(series_metadata, output_dir, subj, parsed_ct_date)
 
 def update_progress(processed: int, total: int, current: int, current_total: int) -> float:
     return (processed + (current / current_total)) / total
