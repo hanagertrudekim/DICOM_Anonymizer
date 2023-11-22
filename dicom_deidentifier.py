@@ -53,7 +53,7 @@ def analyze_dcm_series(dcm_paths: List[Path], subj: str) -> Dict[str, Dict[str, 
     return series_metadata
 
 #시리즈 메타 데이터 csv 파일 저장
-def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str):
+def export_series_metadata(series_metadata: Dict[str, Dict[str, str]], output_dir: Path, subj: str, ct_date: str):
     csv_path = output_dir / f"deid_{subj}_{ct_date}.csv"
     with csv_path.open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=["subj", "MRN", "ct_date"])
@@ -70,7 +70,7 @@ def parse_series_description(description: str) -> str:
     return re.sub(r"\W+", "_", clean_description)
 
 #dicom deidentify 처리
-def deidentify_dcm_file(dcm: pydicom.dataset.FileDataset, subj: str) -> None:
+def deidentify_dcm_file(dcm: dcmread, subj: str) -> None:
     dcm.PatientID = subj
     dcm.PatientName = f"{subj}_{dcm.AcquisitionDate}"
     dcm.PatientBirthDate = dcm.PatientBirthDate[:-4] + "0101"
@@ -104,7 +104,7 @@ def run_deidentifier(src_dcm_dir: Path, input_subj: str):
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
         process_dcm_file(dcm_path, output_dir, subj, parsed_ct_date)
 
-    export_series_metadata(series_metadata, output_dir, subj)
+    export_series_metadata(series_metadata, output_dir, subj, ct_date)
 
 def update_progress(processed: int, total: int, current: int, current_total: int) -> float:
     return (processed + (current / current_total)) / total
