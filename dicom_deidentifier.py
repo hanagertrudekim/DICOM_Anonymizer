@@ -70,7 +70,7 @@ def parse_series_description(description: str) -> str:
     return re.sub(r"\W+", "_", clean_description)
 
 #dicom deidentify 처리
-def deidentify_dcm_file(dcm: dcmread, subj: str) -> None:
+def deidentify_dcm_file(dcm: pydicom.dataset.FileDataset, subj: str) -> None:
     dcm.PatientID = subj
     dcm.PatientName = f"{subj}_{dcm.AcquisitionDate}"
     dcm.PatientBirthDate = dcm.PatientBirthDate[:-4] + "0101"
@@ -99,12 +99,12 @@ def run_deidentifier(src_dcm_dir: Path, input_subj: str):
     series_metadata = analyze_dcm_series(dcm_paths, subj)
     ct_date = next(iter(series_metadata.values()))['ct_date'] if series_metadata else ""
     parsed_ct_date = parse_series_description(ct_date)
+    output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj)
 
     for dcm_path in tqdm(dcm_paths, desc="De-identifying", position=1, leave=False):
         process_dcm_file(dcm_path, output_dir, subj, parsed_ct_date)
 
-    output_dir = prepare_output_dir(src_dcm_dir.parent, src_dcm_dir.name, subj)
-    export_series_metadata(series_metadata, output_dir, subj, parsed_ct_date)
+    export_series_metadata(series_metadata, output_dir, subj)
 
 def update_progress(processed: int, total: int, current: int, current_total: int) -> float:
     return (processed + (current / current_total)) / total
