@@ -4,8 +4,7 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QFileDialog, QListView, QTreeView, QAbstractItemView
 from MainWindow import Ui_MainWindow
 import importlib
-
-dicom_deidentifier = importlib.import_module("dicom_deidentifier")
+import dicom_deidentifier
 
 class WorkerThread(QThread):
     finished = pyqtSignal(str)
@@ -28,7 +27,6 @@ class WorkerThread(QThread):
             self.finished.emit(f"Error: {e}")
         else:
             self.finished.emit("Unknown error occurred")
-
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -89,7 +87,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def updateStatus(self, message):
         self.statusLabel.setText(message)
-
 
 app = QtWidgets.QApplication(sys.argv)
 app.setStyle('Fusion')
