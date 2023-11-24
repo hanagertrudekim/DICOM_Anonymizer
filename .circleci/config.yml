@@ -19,9 +19,10 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y python3-pip
-            sudo apt-get install -y libegl1 libxkbcommon-x11-0 libxkbcommon0
+            sudo apt-get install -y libegl1 libxkbcommon-x11-0 libxkbcommon0 libxcb-xinerama0
             sudo apt-get install -y build-essential libgl1-mesa-dev libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xkb1 libxcb-xinerama0 libxcb-xfixes0 libxcb-shape0 libxcb-randr0 libxcb-sync1 libxcb-render0 libxcb-shm0 libxcb-ewmh2 libxcb-util1 libxcb-xinput0
             pip3 install -r requirements.txt
+            export QT_QPA_PLATFORM=offscreen
             python3 app.py
 
       # GitHub Release 작성
