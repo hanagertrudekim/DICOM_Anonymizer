@@ -19,7 +19,7 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y python3-pip
-            sudo apt-get install libegl1
+            sudo apt-get install -y libegl1 libxkbcommon.so.0
             pip3 install -r requirements.txt
             python3 app.py
 
