@@ -1,4 +1,7 @@
 import sys
+import os
+os.system('sudo apt-get install libxkbcommon-x11-0')
+
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QFileDialog, QListView, QTreeView, QAbstractItemView
