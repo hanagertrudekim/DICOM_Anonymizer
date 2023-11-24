@@ -1,25 +1,47 @@
 version: 2.1
 
 jobs:
-  build:
-    # ... (이전 설정은 그대로 둠)
-
-  deploy:
+  build_and_deploy:
     docker:
       - image: circleci/python:3.8
 
     steps:
       - checkout
 
+      # .env 파일 읽기
       - run:
-          name: Deploy application
-          command: bash deploy.sh
+          name: Load Environment Variables
+          command: |
+            set -o allexport
+            source .env
+            set +o allexport
+
+      # 빌드 스크립트
+      - run:
+          name: Install Dependencies and Build Application
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y python3-pip
+            pip3 install -r requirements.txt
+            python3 build_script.py
+
+      # GitHub Release 작성
+      - run:
+          name: Create GitHub Release
+          command: |
+            github-release release --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG --name "Release $CIRCLE_TAG"
+
+      # 파일 업로드
+      - run:
+          name: Upload Application to GitHub Release
+          command: |
+            github-release upload --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME --tag $CIRCLE_TAG --name "YourApp" --file path/to/your/app
 
 workflows:
   version: 2
-  build:
+  build_and_deploy:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - build_and_deploy:
+          filters:
+            tags:
+              only: /^v.*/
