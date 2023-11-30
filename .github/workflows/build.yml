@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Node.js
-          uses: actions/setup-node@v3
-          with:
-            node-version: '16'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1.0.0
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
