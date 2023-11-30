@@ -37,8 +37,8 @@ jobs:
         os: [macos-latest, windows-latest]
         TARGET: [macos, windows]
         CMD_BUILD: |
-          pyinstaller app.spec
-          cd dist/
+          pyinstaller app.spec &&
+          cd dist/ &&
           zip -r9 DICOM_Anonymizer DICOM_Anonymizer.app/  # for macOS
         OUT_FILE_NAME: [DICOM_Anonymizer.zip, DICOM_Anonymizer.exe]
         ASSET_MIME: [application/zip, application/vnd.microsoft.portable-executable]
