@@ -37,11 +37,7 @@ jobs:
         include:
           - os: macos-latest
             TARGET: macos
-            CMD_BUILD:
-              # pyinstaller 종속성 설정 
-	            pyinstaller app.spec &&
-                cd dist/ &&
-                zip -r9 DICOM_Anonymizer DICOM_Anonymizer.app/                
+            CMD_BUILD: pyinstaller app.spec && cd dist/ && zip -r9 DICOM_Anonymizer DICOM_Anonymizer.app/                
             OUT_FILE_NAME: DICOM_Anonymizer.zip
             ASSET_MIME: application/zip
           - os: windows-latest
