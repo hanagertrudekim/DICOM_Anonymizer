@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import QThread, pyqtSignal
 from PyQt6.QtWidgets import QFileDialog, QListView, QTreeView, QAbstractItemView
