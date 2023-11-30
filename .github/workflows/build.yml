@@ -28,11 +28,7 @@ jobs:
           name: release_url
           path: release_url.txt
 
-  build:
-    name: Build packages
-    needs: createrelease
-    runs-on: ${{ matrix.os }}
-    strategy:
+  strategy:
       matrix:
         include:
           - os: macos-latest
@@ -50,10 +46,10 @@ jobs:
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.12
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.12
+          python-version: 3.12  # 적절한 버전으로 변경
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -67,16 +63,12 @@ jobs:
       - name: Get Release File Name & Upload URL
         id: get_release_info
         shell: bash
-        run: |
-          value=`cat release_url/release_url.txt`
-          echo ::set-output name=upload_url::$value
+        run: echo ::set-output name=upload_url::$(<release_url/release_url.txt)
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./dist/${{ matrix.OUT_FILE_NAME}}
-          asset_name: ${{ matrix.OUT_FILE_NAME}}
-          asset_content_type: ${{ matrix.ASSET_MIME}}
+          asset_path: ./dist/${{ matrix.OUT_FILE_NAME }}
+          asset_name: ${{ matrix.OUT_FILE_NAME }}
+          asset_content_type: ${{ matrix.ASSET_MIME }}
