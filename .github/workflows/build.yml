@@ -10,10 +10,6 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -44,7 +40,8 @@ jobs:
             CMD_BUILD: |
                 pyinstaller app.spec
                 cd dist/ 
-                zip -r9 DICOM_Anonymizer DICOM_Anonymizer       
+                zip -r9 DICOM_Anonymizer.zip DICOM_Anonymizer
+                cd ../
             OUT_FILE_NAME: DICOM_Anonymizer.zip
             ASSET_MIME: application/zip
           - os: windows-latest
