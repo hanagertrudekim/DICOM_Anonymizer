@@ -47,7 +47,7 @@ jobs:
           - os: windows-latest
             TARGET: windows
             CMD_BUILD: pyinstaller app.spec
-            OUT_FILE_NAME: DICOM_Anonymizer
+            OUT_FILE_NAME: DICOM_Anonymizer.exe
             ASSET_MIME: application/vnd.microsoft.portable-executable
     steps:
       - uses: actions/checkout@v1
